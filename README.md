@@ -36,16 +36,11 @@ Containerization is a lightweight form of virtualization that allows you to pack
 ### what is docker image
 
 It is a template that will have all the dependencies along with your application binaries.
-this is image should not have any sources code or unwanted dependencies.
-
 
 ### what is docker container
-
 running instance of a docker image, or is an isolated process running in an isolated environment created by cgroups and namespace. the processes running within this container are visible to your host machine, but the process that runs in host machine is not visible in docker container.
 
 ### what is cgroups & namespace
-
-
 namespace provide the container necessary resources like storage, network, file system, ...
 cgroups provide resources like RAM, CPU. so with cgroups and namespaces your container are usually created.
 
@@ -60,11 +55,19 @@ container runtime environment is also known as container engine which is respons
 ```
 
 docker --version
+docker version
 docker info
-docker df
-docker events
+docker system df
 docker system prune
 docker volume prune
+
+docker run -tid --name myweb-server -p 80:80 hub.hamdocker.ir/nginx:alpine
+docker ps 
+docker ps -a
+docker logs -f myweb-server
+docker stop myweb-server
+docker kill myweb-server
+
 
 
 docker image inspect image_name
@@ -99,6 +102,15 @@ docker run -itd --name web1 --net net1 nginx:latest
 docker run -itd --name web2 --net net2 nginx:latest
 
 docker network connect net1 web2
+
+
+
+```
+
+### Setup Harbor 
+```
+wget https://github.com/goharbor/harbor/releases/download/v2.12.2/harbor-offline-installer-v2.12.2.tgz
+
 
 
 
