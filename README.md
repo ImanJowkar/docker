@@ -52,7 +52,7 @@ container runtime environment is also known as container engine which is respons
 
 ### some important docker command
 
-```
+```bash
 
 docker --version
 docker version
@@ -65,8 +65,16 @@ docker run -tid --name myweb-server -p 80:80 hub.hamdocker.ir/nginx:alpine
 docker ps 
 docker ps -a
 docker logs -f myweb-server
+docker stats myweb-server
 docker stop myweb-server
 docker kill myweb-server
+docker rm myweb-server
+docker rm -f myweb-server
+
+docker container prune # remove all stopped containers.
+
+
+
 
 
 
@@ -108,11 +116,29 @@ docker network connect net1 web2
 ```
 
 ### Setup Harbor 
-```
+```sh
 wget https://github.com/goharbor/harbor/releases/download/v2.12.2/harbor-offline-installer-v2.12.2.tgz
+tar xzvf harbor-offline-installer-version.tgz
+cd harbor
+cp harbor.yml.tmp harbor.yml
+sudo su -
+./install.sh
+
+docker compose up -d
+
+# add insecure-registry in /etc/docker/daemon.json
+#{
+#  "insecure-registries": ["192.168.56.10:80"]
+#}
 
 
+docker login http://192.168.56.10:80
 
+# create a project in harbor ui
+# tag the container 
+docker tag hub.hamdocker.ir/nginx:alpine 192.168.56.10:80/myapps/nginx:v1
+
+docker push 192.168.56.10:80/myapps/nginx:v1
 
 ```
 
