@@ -71,21 +71,111 @@ docker kill myweb-server
 docker rm myweb-server
 docker rm -f myweb-server
 
+docker image inspect mydb
+sudo docker container inspect -f '{{ .NetworkSettings.Ports }}' mydb
+sudo docker container inspect -f '{{ .Config.Env }}' mydb
+
+
+
+sudo docker container ls -aq
+sudo docker rm -f $(sudo docker container ls -aq)
 docker container prune # remove all stopped containers.
 
 
+docker container run --name mydb -e MARIADB_ROOT_PASSWORD=passwd -e MARIADB_USER=iman --env MARIADB_PASSWORD=imanpass --env MARIADB_DATABASE=zbx -p3307:3306 -d hub.hamdocker.ir/mariadb
+
+docker exec -ti mydb bash
+mariadb -u root -p
+mariadb -u iman -p
+```
+
+```sql
+show databases;
+use mysql;
+show tables;
+select user,password,host from user;
+
+
+
+CREATE DATABASE school_db;
+USE school_db;
+
+
+
+CREATE TABLE students (
+    student_id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    enrollment_date DATE NOT NULL
+);
+
+CREATE TABLE grades (
+    grade_id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT,
+    course_name VARCHAR(100) NOT NULL,
+    grade CHAR(1) NOT NULL,
+    FOREIGN KEY (student_id) REFERENCES students(student_id)
+);
+
+
+INSERT INTO students (first_name, last_name, enrollment_date) VALUES
+('John', 'Doe', '2023-09-01'),
+('Jane', 'Smith', '2023-09-01'),
+('iman', 'Johnson', '2024-09-02'),
+('jack', 'Johnson', '2024-06-01'),
+('jafar', 'Johnson', '2022-12-08'),
+('sam', 'Johnson', '2021-02-01'),
+('bob', 'Johnson', '2025-01-01');
+
+INSERT INTO grades (student_id, course_name, grade) VALUES
+(1, 'Mathematics', 'A'),
+(1, 'Science', 'B'),
+(2, 'Mathematics', 'C'),
+(3, 'Mathematics', 'C'),
+(5, 'Science', 'C'),
+(6, 'Science', 'C'),
+(6, 'Science', 'B'),
+(7, 'Science', 'B'),
+(7, 'Science', 'A');
+
+
+
+```
+
+```bash
+
+docker cp <host_address> container_name:/tmp  #copy a file from host to a container
+docker cp container_name:/tmp/web.conf .      # copy a file from container to host
+
+
+sudo docker cp sakila-schema.sql mydb:/tmp
+sudo docker cp sakila-data.sql mydb:/tmp
+sudo docker exec -ti mydb bash
+mariadb -u root -p
+CREATE DATABASE sakila;
+SHOW DATABASES;
+exit
+mariadb -u root -p sakila < /tmp/sakila-schema.sql
+mariadb -u root -p
+use sakila;
+show tables;
+select * from actor;
+mariadb -u root -p sakila < /tmp/sakila-data.sql
+mariadb -u root -p
+use sakila;
+show tables;
+select * from actor;
+quit
+exit
 
 
 
 
-docker image inspect image_name
-docker login https://hub.docker.com
+
 
 usermod -aG docker <USER>
 newgrp docker
 
-docker cp <host_address> container_name:/tmp  #copy a file from host to a container
-docker cp container_name:/tmp/web.conf .      # copy a file from container to host
 
 
 # backup
@@ -132,7 +222,8 @@ docker compose up -d
 #}
 
 
-docker login http://192.168.56.10:80
+=docker login http://192.168.56.10:80
+docker login https://hub.docker.com
 
 # create a project in harbor ui
 # tag the container 
