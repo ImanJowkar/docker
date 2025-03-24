@@ -375,6 +375,8 @@ docker network connect your-network-name container-name
 
 
 ### docker compose
+Docker Compose is a tool for defining and running multi-container Docker applications. It allows you to configure all your application's services in a single YAML file and manage them with simple commands.
+
 
 ```bash
 
