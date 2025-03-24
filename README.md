@@ -196,6 +196,7 @@ docker run --name container_name --env-from=env.txt nginx:latest
 ```
 
 ### docker volume
+
 1. Host Volumes (Bind Mounts)
 `Description:` Maps a directory from the host machine directly into the container
 
@@ -206,6 +207,7 @@ docker run -v /host/path:/container/path nginx
 ```
 
 2. Named Volumes
+
 `Description:` Volumes with explicit names managed by Docker
 
 ```bash
@@ -216,6 +218,7 @@ docker run -v mydata:/container/path nginx
 
 
 3. tmpfs Mounts
+
 `Description:` Stores data in host memory only (not persisted to disk)
 
 ```
@@ -269,6 +272,7 @@ docker run -v my_volume:/path/in/container:ro nginx
 
 
 ### docker network
+
 1. Bridge Network
 `Description:` The default network driver that creates an internal private network for containers on the same Docker host.
 
@@ -284,6 +288,7 @@ docker run --network bridge -d nginx
 ```
 
 2. Host Network
+
 `Description:` Removes network isolation between container and host, using the host's network directly.
 
 `Use Case:` When you need maximum network performance and don't need network isolation.
@@ -302,6 +307,7 @@ docker run --network host -d nginx
 ```
 
 3. None Network
+
 `Description:` Completely isolates the container from all networks.
 
 Use Case: For containers that don't need any network access (security-sensitive applications).
@@ -318,6 +324,7 @@ docker run --network none -d alpine sleep 3600
 ```
 
 4. Overlay Network
+
 `Description:` Enables communication between containers across multiple Docker hosts (for Swarm clusters).
 
 `Use Case:` Docker Swarm services that need to communicate across multiple hosts.
@@ -331,6 +338,7 @@ Encrypted by default in Swarm mode
 Requires swarm mode to be enabled
 
 5. Macvlan Network
+
 `Description:` Assigns a MAC address to containers, making them appear as physical devices on the network.
 
 `Use Case:` When containers need to appear as physical hosts on your network (legacy applications).
